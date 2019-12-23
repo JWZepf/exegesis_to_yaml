@@ -1,3 +1,4 @@
+import sys
 import textwrap
 from exegesis.proto.instructions_pb2 import ArchitectureProto
 from google.protobuf import text_format
@@ -381,19 +382,25 @@ def ParseRegisterSubfield(subfield, outfile, indent):
     return 0
 
 def main():
+    if (len(sys.argv) != 2):
+        print("ERROR: Incorrect usage")
+        print("USAGE: python3 proto_to_yaml.py <infile>")
+        return 1
+
+    infile_path = sys.argv[1]
     try:
-        infile = open("intel_instruction_sets.pbtxt")
+        infile = open(infile_path)
     except:
-        print("Unable to open 'intel_instruction_sets.pbtxt'")
+        print("Unable to open '" + infile_path + "'")
         return 1
 
     proto = infile.read()
     infile.close()
 
     try:
-        outfile = open("intel_instruction_sets.yml", "w")
+        outfile = open("output/arch.yml", "w")
     except:
-        print("Unable to open 'intel_instruction_sets.yml'")
+        print("Unable to open 'output/arch.yml'")
         return 1
 
     arch = text_format.Parse(proto, ArchitectureProto())
