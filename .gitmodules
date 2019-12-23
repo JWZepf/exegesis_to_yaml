@@ -1,0 +1,3 @@
+[submodule "EXEgesis"]
+	path = EXEgesis
+	url = https://github.com/google/EXEgesis
